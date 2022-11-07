@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/ShubhamAwasthi/project-scheduler-app/static/css/main.4694732f.css",
-    "main.js": "/ShubhamAwasthi/project-scheduler-app/static/js/main.f04f1af3.js",
-    "static/js/787.8b77adc6.chunk.js": "/ShubhamAwasthi/project-scheduler-app/static/js/787.8b77adc6.chunk.js",
-    "index.html": "/ShubhamAwasthi/project-scheduler-app/index.html",
-    "main.4694732f.css.map": "/ShubhamAwasthi/project-scheduler-app/static/css/main.4694732f.css.map",
-    "main.f04f1af3.js.map": "/ShubhamAwasthi/project-scheduler-app/static/js/main.f04f1af3.js.map",
-    "787.8b77adc6.chunk.js.map": "/ShubhamAwasthi/project-scheduler-app/static/js/787.8b77adc6.chunk.js.map"
+    "main.css": "/project-scheduler-app/static/css/main.4694732f.css",
+    "main.js": "/project-scheduler-app/static/js/main.3577ef5d.js",
+    "static/js/787.8b77adc6.chunk.js": "/project-scheduler-app/static/js/787.8b77adc6.chunk.js",
+    "index.html": "/project-scheduler-app/index.html",
+    "main.4694732f.css.map": "/project-scheduler-app/static/css/main.4694732f.css.map",
+    "main.3577ef5d.js.map": "/project-scheduler-app/static/js/main.3577ef5d.js.map",
+    "787.8b77adc6.chunk.js.map": "/project-scheduler-app/static/js/787.8b77adc6.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4694732f.css",
-    "static/js/main.f04f1af3.js"
+    "static/js/main.3577ef5d.js"
   ]
 }
