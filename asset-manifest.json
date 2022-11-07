@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/ShubhamAwasthi/project-scheduler-app/static/css/main.073c9b0a.css",
+    "main.css": "/ShubhamAwasthi/project-scheduler-app/static/css/main.4694732f.css",
     "main.js": "/ShubhamAwasthi/project-scheduler-app/static/js/main.f04f1af3.js",
     "static/js/787.8b77adc6.chunk.js": "/ShubhamAwasthi/project-scheduler-app/static/js/787.8b77adc6.chunk.js",
     "index.html": "/ShubhamAwasthi/project-scheduler-app/index.html",
-    "main.073c9b0a.css.map": "/ShubhamAwasthi/project-scheduler-app/static/css/main.073c9b0a.css.map",
+    "main.4694732f.css.map": "/ShubhamAwasthi/project-scheduler-app/static/css/main.4694732f.css.map",
     "main.f04f1af3.js.map": "/ShubhamAwasthi/project-scheduler-app/static/js/main.f04f1af3.js.map",
     "787.8b77adc6.chunk.js.map": "/ShubhamAwasthi/project-scheduler-app/static/js/787.8b77adc6.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
+    "static/css/main.4694732f.css",
     "static/js/main.f04f1af3.js"
   ]
 }
