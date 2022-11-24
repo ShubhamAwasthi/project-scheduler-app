@@ -1,5 +1,7 @@
+import Button from '@mui/material/Button';
+
 const App = () => {
-  return <div>hi</div>;
+  return <Button variant="contained">Contained</Button>;
 };
 
 export default App;
