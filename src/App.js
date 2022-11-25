@@ -6,6 +6,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const localizer = momentLocalizer(moment);
 
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 const MyCalendar = (props) => (
   <div>
     <Calendar
@@ -25,10 +27,15 @@ const MyCalendar = (props) => (
 );
 const App = () => {
   return (
-    <div>
-      <Button variant="contained">Contained</Button>
-      <MyCalendar />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/project-scheduler-app/" element={<MyCalendar />} />
+        <Route
+          path="/project-scheduler-app/button"
+          element={<Button variant="contained">Contained</Button>}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
