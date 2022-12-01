@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 const Profile = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" square={false}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Projects
@@ -18,7 +18,7 @@ const Profile = () => {
       </AppBar>
       <Grid item xs={12}>
         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-          <ProjectItems projects={[]} />
+          <ProjectItems />
         </Paper>
       </Grid>
     </Box>

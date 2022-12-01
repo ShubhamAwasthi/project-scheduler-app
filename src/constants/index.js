@@ -1,0 +1,4 @@
+const PREFIX = 'PROJECT_SCHEDULER_APP_';
+export const PROJECT_KEY = PREFIX + 'PROJECT';
+
+export const PROJECT_ADD = 'PROJECT_ADD';
