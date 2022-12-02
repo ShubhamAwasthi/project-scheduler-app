@@ -1,14 +1,10 @@
 import * as Lockr from 'lockr';
-import { PROJECT_ADD, PROJECT_KEY } from '../constants';
+import { PROJECTS_KEY } from '../constants';
 
-export const setProject = ({ name, dispatch }) => {
-  Lockr.set(PROJECT_KEY, name);
-  dispatch({
-    type: PROJECT_ADD,
-    name
-  });
+export const setProjects = ({ projects, dispatch }) => {
+  Lockr.set(PROJECTS_KEY, projects);
 };
 
-export const getProject = () => {
-  return Lockr.get(PROJECT_KEY);
+export const getProjects = () => {
+  return Lockr.get(PROJECTS_KEY, []);
 };

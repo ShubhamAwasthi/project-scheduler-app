@@ -1,4 +1,9 @@
 const PREFIX = 'PROJECT_SCHEDULER_APP_';
-export const PROJECT_KEY = PREFIX + 'PROJECT';
-
+export const PROJECTS_KEY = PREFIX + 'PROJECTS';
+export const PROJECT_UPDATE = 'PROJECT_UPDATE';
 export const PROJECT_ADD = 'PROJECT_ADD';
+export const PROJECT_REMOVE = 'PROJECT_REMOVE';
+
+export const SKILL_LOW = 'SKILL_LOW';
+export const SKILL_MEDIUM = 'SKILL_MEDIUM';
+export const SKILL_HIGH = 'SKILL_HIGH';

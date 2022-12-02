@@ -11,12 +11,12 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import Grid from '@mui/material/Grid';
-import { getProject, setProject } from '../api';
+import { getProjects, setProjects } from '../api';
 
 const ProjectItems = () => {
   const dispatch = useContext(DispatchContext);
   // const state = useContext(ProjectContext);
-  const projects = getProject() ? [getProject()] : [];
+  const projects = getProjects() ? [getProjects()] : [];
   const [addingProject, setAddingProject] = useState(false);
   const inputRef = createRef();
   return (
@@ -73,7 +73,7 @@ const ProjectItems = () => {
               endIcon={<CheckIcon />}
               onClick={() => {
                 setAddingProject(false);
-                setProject({ name: inputRef.current.value, dispatch });
+                setProjects({ name: inputRef.current.value, dispatch });
               }}>
               Save
             </Button>
