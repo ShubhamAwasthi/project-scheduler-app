@@ -4,18 +4,16 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-import { useContext, useState, createRef } from 'react';
-import { DispatchContext } from '../store';
+import { useState, createRef } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import CheckIcon from '@mui/icons-material/Check';
 import Grid from '@mui/material/Grid';
-import { getProjects, setProjects } from '../api';
+import { getProjects } from '../api';
+import { Link } from 'react-router-dom';
+import { PATH_PROJECT_WIZARD } from '../constants';
 
 const ProjectItems = () => {
-  const dispatch = useContext(DispatchContext);
-  // const state = useContext(ProjectContext);
   const projects = getProjects() ? [getProjects()] : [];
   const [addingProject, setAddingProject] = useState(false);
   const inputRef = createRef();
@@ -62,20 +60,10 @@ const ProjectItems = () => {
               size="small"
               variant="outlined"
               endIcon={<AddIcon />}
-              onClick={() => setAddingProject(true)}>
+              onClick={() => setAddingProject(true)}
+              component={Link}
+              to={PATH_PROJECT_WIZARD}>
               Add
-            </Button>
-          )}
-          {addingProject && (
-            <Button
-              size="small"
-              variant="outlined"
-              endIcon={<CheckIcon />}
-              onClick={() => {
-                setAddingProject(false);
-                setProjects({ name: inputRef.current.value, dispatch });
-              }}>
-              Save
             </Button>
           )}
         </Grid>
