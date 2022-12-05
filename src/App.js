@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import Profile from './components/Profile';
 import ProjectWizard from './components/ProjectWizard';
 import Container from '@mui/material/Container';
@@ -21,12 +21,12 @@ const App = () => {
         <ProjectContext.Provider value={state}>
           <DispatchContext.Provider value={dispatch}>
             <Container maxWidth="lg">
-              <BrowserRouter>
+              <HashRouter>
                 <Routes>
                   <Route path={PATH_PROFILE} element={<Profile />} />
                   <Route path={PATH_PROJECT_WIZARD} element={<ProjectWizard />} />
                 </Routes>
-              </BrowserRouter>
+              </HashRouter>
             </Container>
           </DispatchContext.Provider>
         </ProjectContext.Provider>
