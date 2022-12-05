@@ -10,7 +10,7 @@ import RemoveCircle from '@mui/icons-material/RemoveCircle';
 
 const AddTaskItem = () => {
   return (
-    <Grid container sx={{ p: 0 }} spacing={3}>
+    <Grid container sx={{ p: 0 }} spacing={2}>
       <Grid item xs={2}>
         <TextField label="task" id="task" required size="small" />
       </Grid>
@@ -18,8 +18,8 @@ const AddTaskItem = () => {
         <TextField label="days" id="days" required size="small" />
       </Grid>
       <Grid item xs={2} sx={{ mr: -4, mt: -1 }}>
-        <Button variant="contained" sx={{ backgroundColor: 'red' }}>
-          High
+        <Button variant="contained" sx={{ backgroundColor: 'red' }} size="small">
+          High - 0
         </Button>
         <ButtonGroup variant="outlined">
           <IconButton size="small">
@@ -30,9 +30,9 @@ const AddTaskItem = () => {
           </IconButton>
         </ButtonGroup>
       </Grid>
-      <Grid item xs={2} sx={{ mr: -1, mt: -1 }}>
-        <Button variant="contained" sx={{ backgroundColor: 'purple' }}>
-          Medium
+      <Grid item xs={2} sx={{ mr: 0, mt: -1 }}>
+        <Button variant="contained" sx={{ backgroundColor: 'purple' }} size="small">
+          Medium - 0
         </Button>
         <ButtonGroup variant="outlined">
           <IconButton size="small">
@@ -44,8 +44,8 @@ const AddTaskItem = () => {
         </ButtonGroup>
       </Grid>
       <Grid item xs={2} sx={{ mr: 3, mt: -1 }}>
-        <Button variant="contained" sx={{ backgroundColor: 'darkgray' }}>
-          Low
+        <Button variant="contained" sx={{ backgroundColor: 'darkgray' }} size="small">
+          Low - 0
         </Button>
         <ButtonGroup variant="outlined">
           <IconButton size="small">
