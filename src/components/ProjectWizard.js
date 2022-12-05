@@ -10,6 +10,7 @@ import AppBar from '@mui/material/AppBar';
 import Grid from '@mui/material/Grid';
 import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
+import ProjectDetailForm from './ProjectDetailForm';
 
 const steps = ['Project Details', 'Tasks', 'Team members', 'Holidays'];
 
@@ -87,7 +88,7 @@ const ProjectWizard = () => {
       </AppBar>
       <Grid item xs={12}>
         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-          <Stepper nonLinear activeStep={activeStep}>
+          <Stepper nonLinear activeStep={activeStep} sx={{ p: 2, pt: 3, pb: 5 }}>
             {steps.map((label, index) => (
               <Step key={label} completed={completed[index]}>
                 <StepButton color="inherit" onClick={handleStep(index)}>
@@ -100,37 +101,51 @@ const ProjectWizard = () => {
             {allStepsCompleted() ? (
               <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                 <Box sx={{ flex: '1 1 auto' }} />
-                <Button onClick={handleReset}>Reset</Button>
-                <Button onClick={handleSave}>Save</Button>
+                <Button variant="contained" onClick={handleSave} sx={{ mr: 1 }}>
+                  Save
+                </Button>
+                <Button variant="contained" color="inherit" onClick={handleReset} sx={{ mr: 1 }}>
+                  Reset
+                </Button>
               </Box>
             ) : (
               <>
-                {/* placeholder for edits */}
+                {activeStep === 0 && <ProjectDetailForm />}
+                <Box sx={{ pb: 5 }} />
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                   <Button
+                    variant="contained"
                     color="inherit"
                     disabled={activeStep === 0}
                     onClick={handleBack}
                     sx={{ mr: 1 }}>
                     Back
                   </Button>
-                  <Button onClick={handleNext} sx={{ mr: 1 }}>
+                  <Button variant="contained" onClick={handleNext} sx={{ mr: 1 }}>
                     Next
                   </Button>
                   <Box sx={{ flex: '1 1 auto' }} />
                   {activeStep !== steps.length &&
                     (completed[activeStep] ? (
                       <>
-                        <Button onClick={handleReset} sx={{ mr: 1 }}>
+                        <Button
+                          variant="contained"
+                          color="inherit"
+                          onClick={handleReset}
+                          sx={{ mr: 1 }}>
                           Reset
                         </Button>
                       </>
                     ) : (
                       <>
-                        <Button onClick={handleComplete} sx={{ mr: 1 }}>
+                        <Button variant="contained" onClick={handleComplete} sx={{ mr: 1 }}>
                           {isFinishStep() ? 'Finish' : 'Complete Step'}
                         </Button>
-                        <Button onClick={handleCancel} sx={{ mr: 1 }}>
+                        <Button
+                          color="inherit"
+                          variant="contained"
+                          onClick={handleCancel}
+                          sx={{ mr: 1 }}>
                           {'Cancel'}
                         </Button>
                       </>
