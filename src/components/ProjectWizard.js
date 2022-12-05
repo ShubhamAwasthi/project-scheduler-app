@@ -11,6 +11,7 @@ import Grid from '@mui/material/Grid';
 import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
 import ProjectDetailForm from './ProjectDetailForm';
+import TasksForm from './TasksForm';
 
 const steps = ['Project Details', 'Tasks', 'Team members', 'Holidays'];
 
@@ -111,6 +112,7 @@ const ProjectWizard = () => {
             ) : (
               <>
                 {activeStep === 0 && <ProjectDetailForm />}
+                {activeStep === 1 && <TasksForm />}
                 <Box sx={{ pb: 5 }} />
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                   <Button
