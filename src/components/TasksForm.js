@@ -2,7 +2,6 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TaskItem from './TaskItem';
-import AddTaskItem from './AddTaskItem';
 
 const TasksForm = () => {
   return (
@@ -13,13 +12,38 @@ const TasksForm = () => {
       <Box sx={{ height: '50%', display: 'flex', flexDirection: 'row', pt: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <TaskItem />
-            <TaskItem />
-            <TaskItem />
-            <TaskItem />
+            <TaskItem
+              disabled={true}
+              editTaskHandler={console.log}
+              saveTaskHandler={console.log}
+              deleteTaskHandler={console.log}
+            />
+            <TaskItem
+              disabled={true}
+              editTaskHandler={console.log}
+              saveTaskHandler={console.log}
+              deleteTaskHandler={console.log}
+            />
+            <TaskItem
+              disabled={true}
+              editTaskHandler={console.log}
+              saveTaskHandler={console.log}
+              deleteTaskHandler={console.log}
+            />
+            <TaskItem
+              disabled={true}
+              editTaskHandler={console.log}
+              saveTaskHandler={console.log}
+              deleteTaskHandler={console.log}
+            />
           </Grid>
           <Grid item xs={12}>
-            <AddTaskItem />
+            <TaskItem
+              disabled={false}
+              editTaskHandler={console.log}
+              saveTaskHandler={console.log}
+              deleteTaskHandler={console.log}
+            />
           </Grid>
         </Grid>
       </Box>

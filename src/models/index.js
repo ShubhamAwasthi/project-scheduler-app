@@ -37,9 +37,11 @@ export class Skill {
   /**
    * creates  skill with given params
    * @param {string} level level of the skill
+   * @param {number} count count of the skill
    */
-  constructor(level) {
+  constructor(level, count) {
     this.level = level;
+    this.count = count;
   }
 }
 
