@@ -1,9 +1,11 @@
+import PropTypes from 'prop-types';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TaskItem from './TaskItem';
+import { Task } from '../models';
 
-const TasksForm = () => {
+const TasksForm = ({ tasks, setTasks, dispatch }) => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h6" gutterBottom>
@@ -49,6 +51,12 @@ const TasksForm = () => {
       </Box>
     </Box>
   );
+};
+
+TasksForm.propTypes = {
+  tasks: PropTypes.arrayOf(PropTypes.instanceOf(Task)),
+  setTasks: PropTypes.func,
+  dispatch: PropTypes.func
 };
 
 export default TasksForm;

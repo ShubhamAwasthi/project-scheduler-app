@@ -87,13 +87,15 @@ export class Task {
 export class Project {
   /**
    * creates a project with given params
+   * @param {number} id the id of the project
    * @param {string} name the name of the project
    * @param {Date} startDate the start date of the project
    * @param {Array<Task>} tasks the tasks of the project
    * @param {Array<Worker>} workers the workers of the project
    * @param {Array<Holiday>} holidays the holidays of the project
    */
-  constructor(name, startDate, tasks, workers, holidays) {
+  constructor(id, name, startDate, tasks, workers, holidays) {
+    this.id = id;
     this.name = name;
     this.startDate = startDate;
     this.tasks = tasks;

@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 import { createContext } from 'react';
-import { getProjects } from '../api';
+import { getProjects, setProjects } from '../api';
 import {
   PROJECT_ADD,
   PROJECT_REMOVE,
@@ -14,32 +14,42 @@ export const ProjectContext = createContext(null);
 export const DispatchContext = createContext(null);
 
 export const appReducer = (state, action) => {
+  let newState = [];
   switch (action.type) {
     case PROJECT_ADD:
-      return [...state, action.project];
+      newState = [...state, action.project];
+      break;
     case PROJECT_REMOVE:
-      return state.filter((project) => project.name !== action.name);
+      newState = state.filter((project) => project.name !== action.name);
+      break;
     case PROJECT_UPDATE:
-      return [...state.filter((project) => project.name !== action.name), action.project];
+      newState = [...state.filter((project) => project.name !== action.name), action.project];
+      break;
     case TASK_ADD:
       state.filter((project) => project.name == action.name)[0].tasks.push(action.task);
-      return [...state];
+      newState = [...state];
+      break;
     case TASK_UPDATE:
       const projectWithTaskToUpdate = state.filter((project) => project.name == action.name)[0];
       projectWithTaskToUpdate.tasks = [
         ...projectWithTaskToUpdate.tasks.filter((task) => task.name !== action.task.name),
         action.task
       ];
-      return [...state];
+      newState = [...state];
+      break;
     case TASK_REMOVE:
       const projectWithTaskToRemove = state.filter((project) => project.name == action.name)[0];
       projectWithTaskToRemove.tasks = [
         ...projectWithTaskToRemove.tasks.filter((task) => task.name !== action.task.name)
       ];
-      return [...state];
+      newState = [...state];
+      break;
     default:
       throw new Error('unknown action');
   }
+  console.log(newState);
+  setProjects(newState);
+  return newState;
 };
 
-export const initialState = getProjects();
+export const initialState = getProjects() || [];

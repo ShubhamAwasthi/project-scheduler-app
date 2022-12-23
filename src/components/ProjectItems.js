@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,12 +10,12 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Grid from '@mui/material/Grid';
-import { getProjects } from '../api';
 import { Link } from 'react-router-dom';
 import { PATH_PROJECT_WIZARD } from '../constants';
+import { Project } from '../models';
+import moment from 'moment';
 
-const ProjectItems = () => {
-  const projects = getProjects() ? [getProjects()] : [];
+const ProjectItems = ({ projects }) => {
   const [addingProject, setAddingProject] = useState(false);
   const inputRef = createRef();
   return (
@@ -25,12 +26,16 @@ const ProjectItems = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
+                <TableCell>Start Date</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {projects.map((project) => (
-                <TableRow key={project}>
-                  <TableCell>{project}</TableCell>
+                <TableRow key={project.name}>
+                  <TableCell>{project.name}</TableCell>
+                  <TableCell>
+                    {project.startDate ? moment(project.startDate).format('DD-MM-YYYY') : '-'}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -70,6 +75,10 @@ const ProjectItems = () => {
       </Grid>
     </>
   );
+};
+
+ProjectItems.propTypes = {
+  projects: PropTypes.arrayOf(PropTypes.instanceOf(Project))
 };
 
 export default ProjectItems;

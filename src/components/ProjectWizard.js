@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -12,12 +13,21 @@ import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
 import ProjectDetailForm from './ProjectDetailForm';
 import TasksForm from './TasksForm';
+import { Holiday, Task, Project } from '../models';
+import { DispatchContext } from '../store';
+import moment from 'moment';
+import { PROJECT_ADD } from '../constants';
 
 const steps = ['Project Details', 'Tasks', 'Team members', 'Holidays'];
 
-const ProjectWizard = () => {
+const ProjectWizard = (props) => {
+  const dispatch = useContext(DispatchContext);
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState({});
+  const [projectDetails, setProjectDetails] = useState(props.projectDetails || {});
+  const [tasks, setTasks] = useState(props.tasks || []);
+  // const [teamMembers, setTeamMembers] = useState(props.teamMembers || []);
+  // const [holidays, setHolidays] = useState(props.holidays || []);
   const navigate = useNavigate();
 
   const totalSteps = () => {
@@ -70,6 +80,15 @@ const ProjectWizard = () => {
   };
 
   const handleSave = () => {
+    const project = new Project(
+      moment().valueOf(),
+      projectDetails.name,
+      projectDetails.startDate,
+      tasks,
+      [],
+      []
+    );
+    dispatch({ type: PROJECT_ADD, project: project });
     navigate(-1);
   };
 
@@ -111,8 +130,16 @@ const ProjectWizard = () => {
               </Box>
             ) : (
               <>
-                {activeStep === 0 && <ProjectDetailForm />}
-                {activeStep === 1 && <TasksForm />}
+                {activeStep === 0 && (
+                  <ProjectDetailForm
+                    projectDetails={projectDetails}
+                    setProjectDetails={setProjectDetails}
+                    dispatch={dispatch}
+                  />
+                )}
+                {activeStep === 1 && (
+                  <TasksForm tasks={tasks} setTasks={setTasks} dispatch={dispatch} />
+                )}
                 <Box sx={{ pb: 5 }} />
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                   <Button
@@ -160,6 +187,13 @@ const ProjectWizard = () => {
       </Grid>
     </Box>
   );
+};
+
+ProjectWizard.propTypes = {
+  projectDetails: PropTypes.object,
+  tasks: PropTypes.arrayOf(PropTypes.instanceOf(Task)),
+  teamMembers: PropTypes.arrayOf(PropTypes.instanceOf(Worker)),
+  holidays: PropTypes.arrayOf(PropTypes.instanceOf(Holiday))
 };
 
 export default ProjectWizard;

@@ -1,13 +1,11 @@
+import PropTypes from 'prop-types';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers';
-import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-const ProjectDetailForm = () => {
-  const [name, setName] = useState('');
-  const [startDate, setStartDate] = useState(null);
+const ProjectDetailForm = ({ projectDetails, setProjectDetails, dispatch }) => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h6" gutterBottom>
@@ -20,9 +18,11 @@ const ProjectDetailForm = () => {
               id="name"
               name="name"
               label="name"
-              value={name}
+              value={projectDetails.name}
               required
-              onChange={(event) => setName(event.target.value)}
+              onChange={(event) =>
+                setProjectDetails({ ...projectDetails, name: event.target.value })
+              }
               fullWidth
               size="small"
             />
@@ -31,9 +31,9 @@ const ProjectDetailForm = () => {
             <DatePicker
               label="start date"
               onChange={(newValue) => {
-                setStartDate(newValue);
+                setProjectDetails({ ...projectDetails, startDate: newValue });
               }}
-              value={startDate}
+              value={null}
               renderInput={(params) => <TextField size="small" {...params} />}
               required
               fullWidth
@@ -43,6 +43,12 @@ const ProjectDetailForm = () => {
       </Box>
     </Box>
   );
+};
+
+ProjectDetailForm.propTypes = {
+  projectDetails: PropTypes.object,
+  setProjectDetails: PropTypes.func,
+  dispatch: PropTypes.func
 };
 
 export default ProjectDetailForm;

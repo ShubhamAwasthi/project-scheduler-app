@@ -123,9 +123,9 @@ TaskItem.propTypes = {
   editTaskHandler: PropTypes.func.isRequired,
   deleteTaskHandler: PropTypes.func.isRequired,
   name: PropTypes.string,
-  skills: PropTypes.arrayOf(Skill),
+  skills: PropTypes.arrayOf(PropTypes.instanceOf(Skill)),
   days: PropTypes.number,
-  workers: PropTypes.arrayOf(Worker)
+  workers: PropTypes.arrayOf(PropTypes.instanceOf(Worker))
 };
 
 export default TaskItem;
