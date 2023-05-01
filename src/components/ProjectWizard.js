@@ -26,6 +26,7 @@ const ProjectWizard = (props) => {
   const [completed, setCompleted] = useState({});
   const [projectDetails, setProjectDetails] = useState(props.projectDetails || {});
   const [tasks, setTasks] = useState(props.tasks || []);
+  const [editingId, setEditingId] = useState(null);
   // const [teamMembers, setTeamMembers] = useState(props.teamMembers || []);
   // const [holidays, setHolidays] = useState(props.holidays || []);
   const navigate = useNavigate();
@@ -138,7 +139,13 @@ const ProjectWizard = (props) => {
                   />
                 )}
                 {activeStep === 1 && (
-                  <TasksForm tasks={tasks} setTasks={setTasks} dispatch={dispatch} />
+                  <TasksForm
+                    tasks={tasks}
+                    setTasks={setTasks}
+                    dispatch={dispatch}
+                    editingId={editingId}
+                    setEditingId={setEditingId}
+                  />
                 )}
                 <Box sx={{ pb: 5 }} />
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>

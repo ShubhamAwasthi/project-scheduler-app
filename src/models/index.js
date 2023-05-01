@@ -68,12 +68,14 @@ export class Worker {
 export class Task {
   /**
    * creates task with given params
+   * @param {number} id the id of the task
    * @param {string} name the name of the task
    * @param {Array<Skill>} skills the skills needed for the task
    * @param {number} days the number of days needed to finish the task
    * @param {Array<Worker>} workers the workers assigned to the task
    */
-  constructor(name, skills, days, workers) {
+  constructor(id, name, skills, days, workers) {
+    this.id = id;
     this.name = name;
     this.skills = skills;
     this.days = days;

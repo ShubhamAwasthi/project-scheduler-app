@@ -33,7 +33,7 @@ const ProjectDetailForm = ({ projectDetails, setProjectDetails, dispatch }) => {
               onChange={(newValue) => {
                 setProjectDetails({ ...projectDetails, startDate: newValue });
               }}
-              value={null}
+              value={projectDetails.startDate}
               renderInput={(params) => <TextField size="small" {...params} />}
               required
               fullWidth

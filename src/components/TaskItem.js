@@ -17,19 +17,57 @@ const TaskItem = ({
   editTaskHandler,
   deleteTaskHandler,
   saveTaskHandler,
-  name,
-  skills,
-  days,
-  workers
+  id,
+  taskName,
+  taskDays,
+  taskSkills,
+  setTaskName,
+  setTaskDays,
+  setTaskSkills,
+  taskWorkers
 }) => {
+  console.log(taskName, taskDays, taskSkills);
   const MARGIN_TOP_SKILLS = disabled ? 0 : -1;
+  const ADD = 'ADD';
+  const REMOVE = 'REMOVE';
+  const updateSkillsHandler = (skillLevel, skillAction) => {
+    const skillToUpdate = taskSkills.find((x) => x.level === skillLevel);
+    if (skillAction === ADD) {
+      skillToUpdate.count = 1 + skillToUpdate.count;
+    } else if (skillAction === REMOVE) {
+      skillToUpdate.count = Math.max(0, skillToUpdate.count - 1);
+    }
+    setTaskSkills(taskSkills.slice());
+  };
+  const updateNameHandler = (event) => {
+    setTaskName(event.target.value);
+  };
+  const updateDaysHandler = (event) => {
+    setTaskDays(event.target.value);
+  };
   return (
     <Grid container sx={{ p: 0, mb: 2 }} spacing={2} alignItems="center">
       <Grid item xs={2}>
-        <TextField disabled={disabled} label="task" id="task" required size="small" value={name} />
+        <TextField
+          disabled={disabled}
+          label="task"
+          id="task"
+          required
+          size="small"
+          value={taskName}
+          onChange={updateNameHandler}
+        />
       </Grid>
       <Grid item xs={2}>
-        <TextField disabled={disabled} label="days" id="days" required size="small" value={days} />
+        <TextField
+          disabled={disabled}
+          label="days"
+          id="days"
+          required
+          size="small"
+          value={taskDays}
+          onChange={updateDaysHandler}
+        />
       </Grid>
       <Grid item xs={2} sx={{ mr: -4, mt: MARGIN_TOP_SKILLS }}>
         <Button
@@ -37,17 +75,14 @@ const TaskItem = ({
           variant="contained"
           sx={{ backgroundColor: 'red' }}
           size="small">
-          High -
-          {skills?.filter((x) => x.level === SKILL_HIGH)?.count
-            ? skills?.filter((x) => x.level === SKILL_HIGH)?.count
-            : 0}
+          High -{taskSkills?.find((x) => x.level === SKILL_HIGH)?.count || 0}
         </Button>
         {!disabled && (
           <ButtonGroup variant="outlined">
-            <IconButton size="small">
+            <IconButton size="small" onClick={() => updateSkillsHandler(SKILL_HIGH, ADD)}>
               <AddCircle sx={{ color: 'green', pt: 1 }} />
             </IconButton>
-            <IconButton size="small">
+            <IconButton size="small" onClick={() => updateSkillsHandler(SKILL_HIGH, REMOVE)}>
               <RemoveCircle sx={{ color: 'orange', pt: 1 }} />
             </IconButton>
           </ButtonGroup>
@@ -59,17 +94,14 @@ const TaskItem = ({
           variant="contained"
           sx={{ backgroundColor: 'purple' }}
           size="small">
-          Medium -
-          {skills?.filter((x) => x.level === SKILL_MEDIUM)?.count
-            ? skills?.filter((x) => x.level === SKILL_MEDIUM)?.count
-            : 0}
+          Medium -{taskSkills?.find((x) => x.level === SKILL_MEDIUM)?.count || 0}
         </Button>
         {!disabled && (
           <ButtonGroup variant="outlined">
-            <IconButton size="small">
+            <IconButton size="small" onClick={() => updateSkillsHandler(SKILL_MEDIUM, ADD)}>
               <AddCircle sx={{ color: 'green', pt: 1 }} />
             </IconButton>
-            <IconButton size="small">
+            <IconButton size="small" onClick={() => updateSkillsHandler(SKILL_MEDIUM, REMOVE)}>
               <RemoveCircle sx={{ color: 'orange', pt: 1 }} />
             </IconButton>
           </ButtonGroup>
@@ -81,17 +113,14 @@ const TaskItem = ({
           variant="contained"
           sx={{ backgroundColor: 'darkgray' }}
           size="small">
-          Low -
-          {skills?.filter((x) => x.level === SKILL_LOW)?.count
-            ? skills?.filter((x) => x.level === SKILL_LOW)?.count
-            : 0}
+          Low -{taskSkills?.find((x) => x.level === SKILL_LOW)?.count || 0}
         </Button>
         {!disabled && (
           <ButtonGroup variant="outlined">
-            <IconButton size="small">
+            <IconButton size="small" onClick={() => updateSkillsHandler(SKILL_LOW, ADD)}>
               <AddCircle sx={{ color: 'green', pt: 1 }} />
             </IconButton>
-            <IconButton size="small">
+            <IconButton size="small" onClick={() => updateSkillsHandler(SKILL_LOW, REMOVE)}>
               <RemoveCircle sx={{ color: 'orange', pt: 1 }} />
             </IconButton>
           </ButtonGroup>
@@ -100,15 +129,15 @@ const TaskItem = ({
       <Grid item xs={2}>
         <ButtonGroup variant="outlined">
           {disabled ? (
-            <IconButton onClick={editTaskHandler}>
+            <IconButton onClick={() => editTaskHandler(id)}>
               <Edit sx={{ color: 'green' }} />
             </IconButton>
           ) : (
-            <IconButton onClick={saveTaskHandler}>
+            <IconButton onClick={() => saveTaskHandler(id, taskName, taskDays, taskSkills)}>
               <Save sx={{ color: 'green' }} />
             </IconButton>
           )}
-          <IconButton onClick={deleteTaskHandler}>
+          <IconButton onClick={() => deleteTaskHandler(id)}>
             <Delete sx={{ color: 'orange' }} />
           </IconButton>
         </ButtonGroup>
@@ -118,14 +147,18 @@ const TaskItem = ({
 };
 
 TaskItem.propTypes = {
+  id: PropTypes.string,
   disabled: PropTypes.bool.isRequired,
   saveTaskHandler: PropTypes.func.isRequired,
   editTaskHandler: PropTypes.func.isRequired,
   deleteTaskHandler: PropTypes.func.isRequired,
-  name: PropTypes.string,
-  skills: PropTypes.arrayOf(PropTypes.instanceOf(Skill)),
-  days: PropTypes.number,
-  workers: PropTypes.arrayOf(PropTypes.instanceOf(Worker))
+  taskName: PropTypes.string,
+  taskSkills: PropTypes.arrayOf(PropTypes.instanceOf(Skill)),
+  taskDays: PropTypes.number,
+  setTaskName: PropTypes.func,
+  setTaskDays: PropTypes.func,
+  setTaskSkills: PropTypes.func,
+  taskWorkers: PropTypes.arrayOf(PropTypes.instanceOf(Worker))
 };
 
 export default TaskItem;
