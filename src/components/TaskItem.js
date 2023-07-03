@@ -147,7 +147,7 @@ const TaskItem = ({
 };
 
 TaskItem.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.number,
   disabled: PropTypes.bool.isRequired,
   saveTaskHandler: PropTypes.func.isRequired,
   editTaskHandler: PropTypes.func.isRequired,

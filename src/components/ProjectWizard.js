@@ -13,6 +13,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
 import ProjectDetailForm from './ProjectDetailForm';
 import TasksForm from './TasksForm';
+import WorkerForm from './WorkerForm';
 import { Holiday, Task, Project } from '../models';
 import { DispatchContext } from '../store';
 import moment from 'moment';
@@ -26,7 +27,9 @@ const ProjectWizard = (props) => {
   const [completed, setCompleted] = useState({});
   const [projectDetails, setProjectDetails] = useState(props.projectDetails || {});
   const [tasks, setTasks] = useState(props.tasks || []);
-  const [editingId, setEditingId] = useState(null);
+  const [workers, setWorkers] = useState(props.workers || []);
+  const [taskEditingId, setTaskEditingId] = useState(null);
+  const [workerEditingId, setWorkerEditingId] = useState(null);
   // const [teamMembers, setTeamMembers] = useState(props.teamMembers || []);
   // const [holidays, setHolidays] = useState(props.holidays || []);
   const navigate = useNavigate();
@@ -143,8 +146,17 @@ const ProjectWizard = (props) => {
                     tasks={tasks}
                     setTasks={setTasks}
                     dispatch={dispatch}
-                    editingId={editingId}
-                    setEditingId={setEditingId}
+                    editingId={taskEditingId}
+                    setEditingId={setTaskEditingId}
+                  />
+                )}
+                {activeStep === 2 && (
+                  <WorkerForm
+                    workers={workers}
+                    setWorkers={setWorkers}
+                    dispatch={dispatch}
+                    editingId={workerEditingId}
+                    setEditingId={setWorkerEditingId}
                   />
                 )}
                 <Box sx={{ pb: 5 }} />
@@ -199,7 +211,7 @@ const ProjectWizard = (props) => {
 ProjectWizard.propTypes = {
   projectDetails: PropTypes.object,
   tasks: PropTypes.arrayOf(PropTypes.instanceOf(Task)),
-  teamMembers: PropTypes.arrayOf(PropTypes.instanceOf(Worker)),
+  workers: PropTypes.arrayOf(PropTypes.instanceOf(Worker)),
   holidays: PropTypes.arrayOf(PropTypes.instanceOf(Holiday))
 };
 

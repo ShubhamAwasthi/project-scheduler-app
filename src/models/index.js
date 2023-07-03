@@ -51,11 +51,13 @@ export class Skill {
 export class Worker {
   /**
    * creates a worker with given params
+   * @param {number} id the id of the worker
    * @param {string} name the name of this worker
    * @param {Skill} skill the skill of this worker
    * @param {Array<Vacation>} vacations the vacations of this woker
    */
-  constructor(name, skill, vacations) {
+  constructor(id, name, skill, vacations) {
+    this.id = id;
     this.name = name;
     this.skill = skill;
     this.vacations = vacations;
