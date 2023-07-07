@@ -26,9 +26,10 @@ const WorkerItem = ({
 }) => {
   console.log(workerName, workerSkills);
   const MARGIN_TOP_SKILLS = disabled ? 0 : -1;
-  const updateSkillsHandler = (skillLevel) => {
+  const updateSkillsHandler = (event) => {
+    const skillLevel = event.target.defaultValue;
+    workerSkills.forEach((item) => (item.count = 0));
     const skillToUpdate = workerSkills.find((x) => x.level === skillLevel);
-    workerSkills;
     skillToUpdate.count = 1;
     setWorkerSkills(workerSkills.slice());
   };
@@ -55,7 +56,7 @@ const WorkerItem = ({
             aria-labelledby="skill-radio-buttons-group-label"
             defaultValue={SKILL_HIGH}
             name="radio-buttons-group"
-            value={SKILL_LOW}
+            value={workerSkills.find((x) => x.count == 1)?.level || SKILL_LOW}
             onChange={updateSkillsHandler}>
             {disabled ? (
               <>

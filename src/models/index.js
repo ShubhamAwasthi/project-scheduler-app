@@ -53,13 +53,13 @@ export class Worker {
    * creates a worker with given params
    * @param {number} id the id of the worker
    * @param {string} name the name of this worker
-   * @param {Skill} skill the skill of this worker
+   * @param {Array<Skill>} skills the skill of this worker
    * @param {Array<Vacation>} vacations the vacations of this woker
    */
-  constructor(id, name, skill, vacations) {
+  constructor(id, name, skills, vacations) {
     this.id = id;
     this.name = name;
-    this.skill = skill;
+    this.skills = skills;
     this.vacations = vacations;
   }
 }

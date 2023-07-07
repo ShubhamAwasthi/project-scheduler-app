@@ -9,17 +9,16 @@ import { SKILL_HIGH, SKILL_MEDIUM, SKILL_LOW } from '../constants';
 import moment from 'moment';
 
 const WorkerForm = ({ workers, setWorkers, dispatch, editingId, setEditingId }) => {
-  const saveWorkerHandler = (id, name, days, skills) => {
-    console.log('save handler', workers, name, skills, days, id);
+  const saveWorkerHandler = (id, name, skills) => {
+    console.log('save handler', workers, name, skills, id);
     let workerToSave = workers.find((x) => x.id === id);
     if (workerToSave) {
       console.log('found existing worker');
       workerToSave.name = name;
       workerToSave.skills = skills;
-      workerToSave.days = days;
     } else {
-      console.log('not found existing task');
-      workerToSave = new Worker(id || moment().valueOf(), name, skills, days, []);
+      console.log('not found existing worker');
+      workerToSave = new Worker(id || moment().valueOf(), name, skills, []);
       console.log(workerToSave, 'saved this');
     }
     setWorkers([...workers.filter((x) => x.id !== id), workerToSave]);
@@ -28,7 +27,7 @@ const WorkerForm = ({ workers, setWorkers, dispatch, editingId, setEditingId }) 
     setName('');
   };
 
-  const editWorkerHandler = (id, name, skills, days) => {
+  const editWorkerHandler = (id, name, skills) => {
     const workerToEdit = workers.find((x) => x.id === id);
     setSkills(workerToEdit.skills);
     setName(workerToEdit.names);
