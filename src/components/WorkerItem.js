@@ -24,7 +24,6 @@ const WorkerItem = ({
   setWorkerName,
   setWorkerSkills
 }) => {
-  console.log(workerName, workerSkills);
   const MARGIN_TOP_SKILLS = disabled ? 0 : -1;
   const updateSkillsHandler = (event) => {
     const skillLevel = event.target.defaultValue;

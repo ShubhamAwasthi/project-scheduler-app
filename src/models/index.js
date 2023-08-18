@@ -4,11 +4,13 @@
 export class Holiday {
   /**
    * creates holiday with given params
+   * @param {number} id the id of the Holiday
    * @param {Date} startDate the start date of this holiday
    * @param {Date} endDate the end date of this holiday
    * @param {string} name  the name of this holiday
    */
-  constructor(startDate, endDate, name) {
+  constructor(id, startDate, endDate, name) {
+    this.id = id;
     this.startDate = startDate;
     this.endDate = endDate;
     this.name = name;
@@ -21,10 +23,14 @@ export class Holiday {
 export class Vacation {
   /**
    * creates vacation with given params
+   * @param {number} id the id of the Vacation
+   * @param {number} workerId the id of the worker
    * @param {Date} startDate the start date of this vacation
    * @param {Date} endDate the end date of this vacation
    */
-  constructor(startDate, endDate) {
+  constructor(id, workerId, startDate, endDate) {
+    this.id = id;
+    this.workerId = workerId;
     this.startDate = startDate;
     this.endDate = endDate;
   }
@@ -54,13 +60,11 @@ export class Worker {
    * @param {number} id the id of the worker
    * @param {string} name the name of this worker
    * @param {Array<Skill>} skills the skill of this worker
-   * @param {Array<Vacation>} vacations the vacations of this woker
    */
-  constructor(id, name, skills, vacations) {
+  constructor(id, name, skills) {
     this.id = id;
     this.name = name;
     this.skills = skills;
-    this.vacations = vacations;
   }
 }
 

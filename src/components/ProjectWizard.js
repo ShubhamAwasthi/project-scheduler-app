@@ -14,12 +14,13 @@ import Paper from '@mui/material/Paper';
 import ProjectDetailForm from './ProjectDetailForm';
 import TasksForm from './TasksForm';
 import WorkerForm from './WorkerForm';
+import HolidayForm from './HolidayForm';
 import { Holiday, Task, Project } from '../models';
 import { DispatchContext } from '../store';
 import moment from 'moment';
 import { PROJECT_ADD } from '../constants';
 
-const steps = ['Project Details', 'Tasks', 'Team members', 'Holidays'];
+const steps = ['Project Details', 'Tasks', 'Team members', 'Holidays', 'Vacations'];
 
 const ProjectWizard = (props) => {
   const dispatch = useContext(DispatchContext);
@@ -28,8 +29,11 @@ const ProjectWizard = (props) => {
   const [projectDetails, setProjectDetails] = useState(props.projectDetails || {});
   const [tasks, setTasks] = useState(props.tasks || []);
   const [workers, setWorkers] = useState(props.workers || []);
+  const [holidays, setHolidays] = useState(props.holidays || []);
   const [taskEditingId, setTaskEditingId] = useState(null);
   const [workerEditingId, setWorkerEditingId] = useState(null);
+  const [holidayEditingId, setHolidayEditingId] = useState(null);
+  // const [vacationEditingId, setVacationEditingId] = useState(null);
   // const [teamMembers, setTeamMembers] = useState(props.teamMembers || []);
   // const [holidays, setHolidays] = useState(props.holidays || []);
   const navigate = useNavigate();
@@ -157,6 +161,15 @@ const ProjectWizard = (props) => {
                     dispatch={dispatch}
                     editingId={workerEditingId}
                     setEditingId={setWorkerEditingId}
+                  />
+                )}
+                {activeStep === 3 && (
+                  <HolidayForm
+                    holidays={holidays}
+                    setHolidays={setHolidays}
+                    dispatch={dispatch}
+                    editingId={holidayEditingId}
+                    setEditingId={setHolidayEditingId}
                   />
                 )}
                 <Box sx={{ pb: 5 }} />

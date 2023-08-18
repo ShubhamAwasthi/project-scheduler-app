@@ -18,7 +18,7 @@ const WorkerForm = ({ workers, setWorkers, dispatch, editingId, setEditingId }) 
       workerToSave.skills = skills;
     } else {
       console.log('not found existing worker');
-      workerToSave = new Worker(id || moment().valueOf(), name, skills, []);
+      workerToSave = new Worker(id || moment().valueOf(), name, skills);
       console.log(workerToSave, 'saved this');
     }
     setWorkers([...workers.filter((x) => x.id !== id), workerToSave]);
