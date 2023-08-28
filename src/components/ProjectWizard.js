@@ -15,7 +15,8 @@ import ProjectDetailForm from './ProjectDetailForm';
 import TasksForm from './TasksForm';
 import WorkerForm from './WorkerForm';
 import HolidayForm from './HolidayForm';
-import { Holiday, Task, Project } from '../models';
+import VacationForm from './VacationForm';
+import { Holiday, Task, Project, Vacation } from '../models';
 import { DispatchContext } from '../store';
 import moment from 'moment';
 import { PROJECT_ADD } from '../constants';
@@ -30,12 +31,12 @@ const ProjectWizard = (props) => {
   const [tasks, setTasks] = useState(props.tasks || []);
   const [workers, setWorkers] = useState(props.workers || []);
   const [holidays, setHolidays] = useState(props.holidays || []);
+  const [vacations, setVacations] = useState(props.vacations || []);
   const [taskEditingId, setTaskEditingId] = useState(null);
   const [workerEditingId, setWorkerEditingId] = useState(null);
   const [holidayEditingId, setHolidayEditingId] = useState(null);
-  // const [vacationEditingId, setVacationEditingId] = useState(null);
-  // const [teamMembers, setTeamMembers] = useState(props.teamMembers || []);
-  // const [holidays, setHolidays] = useState(props.holidays || []);
+  const [vacationEditingId, setVacationEditingId] = useState(null);
+
   const navigate = useNavigate();
 
   const totalSteps = () => {
@@ -172,6 +173,16 @@ const ProjectWizard = (props) => {
                     setEditingId={setHolidayEditingId}
                   />
                 )}
+                {activeStep === 4 && (
+                  <VacationForm
+                    vacations={vacations}
+                    setVacations={setVacations}
+                    workers={workers}
+                    dispatch={dispatch}
+                    editingId={vacationEditingId}
+                    setEditingId={setVacationEditingId}
+                  />
+                )}
                 <Box sx={{ pb: 5 }} />
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                   <Button
@@ -225,7 +236,8 @@ ProjectWizard.propTypes = {
   projectDetails: PropTypes.object,
   tasks: PropTypes.arrayOf(PropTypes.instanceOf(Task)),
   workers: PropTypes.arrayOf(PropTypes.instanceOf(Worker)),
-  holidays: PropTypes.arrayOf(PropTypes.instanceOf(Holiday))
+  holidays: PropTypes.arrayOf(PropTypes.instanceOf(Holiday)),
+  vacations: PropTypes.arrayOf(PropTypes.instanceOf(Vacation))
 };
 
 export default ProjectWizard;
