@@ -94,8 +94,9 @@ const ProjectWizard = (props) => {
       projectDetails.name,
       projectDetails.startDate,
       tasks,
-      [],
-      []
+      workers,
+      holidays,
+      vacations
     );
     dispatch({ type: PROJECT_ADD, project: project });
     navigate(-1);
@@ -111,7 +112,7 @@ const ProjectWizard = (props) => {
       <AppBar position="static" square={false}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {`New Project > ${steps[activeStep]}`}
+            {`New Project > ${steps[activeStep] || projectDetails.name}`}
           </Typography>
         </Toolbar>
       </AppBar>

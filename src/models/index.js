@@ -101,14 +101,16 @@ export class Project {
    * @param {Array<Task>} tasks the tasks of the project
    * @param {Array<Worker>} workers the workers of the project
    * @param {Array<Holiday>} holidays the holidays of the project
+   * @param {Array<Vacation>} vacations the vacations of the team members in project
    */
-  constructor(id, name, startDate, tasks, workers, holidays) {
+  constructor(id, name, startDate, tasks, workers, holidays, vacations) {
     this.id = id;
     this.name = name;
     this.startDate = startDate;
     this.tasks = tasks;
     this.workers = workers;
     this.holidays = holidays;
+    this.vacations = vacations;
   }
 }
 
