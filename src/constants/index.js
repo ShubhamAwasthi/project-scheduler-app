@@ -14,3 +14,4 @@ export const SKILL_HIGH = 'SKILL_HIGH';
 
 export const PATH_PROFILE = '/';
 export const PATH_PROJECT_WIZARD = `/add-project`;
+export const PATH_PROJECT_EDIT_WIZARD = `/edit-project/:id`;

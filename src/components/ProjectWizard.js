@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -18,20 +18,29 @@ import HolidayForm from './HolidayForm';
 import VacationForm from './VacationForm';
 import { Holiday, Task, Project, Vacation } from '../models';
 import { DispatchContext } from '../store';
+import { getProjects } from '../api';
 import moment from 'moment';
-import { PROJECT_ADD } from '../constants';
+import { PROJECT_ADD, PROJECT_UPDATE } from '../constants';
 
 const steps = ['Project Details', 'Tasks', 'Team members', 'Holidays', 'Vacations'];
 
 const ProjectWizard = (props) => {
   const dispatch = useContext(DispatchContext);
+  const { id } = useParams();
+  const project = getProjects().find((p) => p.id == id);
+  console.log('loaded details for id: ', id, project);
+  console.log('loaded projects: ', getProjects());
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState({});
-  const [projectDetails, setProjectDetails] = useState(props.projectDetails || {});
-  const [tasks, setTasks] = useState(props.tasks || []);
-  const [workers, setWorkers] = useState(props.workers || []);
-  const [holidays, setHolidays] = useState(props.holidays || []);
-  const [vacations, setVacations] = useState(props.vacations || []);
+  const [projectDetails, setProjectDetails] = useState(
+    project
+      ? { name: project.name, startDate: project.startDate, id: project.id }
+      : props.projectDetails || {}
+  );
+  const [tasks, setTasks] = useState(project?.tasks || props.tasks || []);
+  const [workers, setWorkers] = useState(project?.workers || props.workers || []);
+  const [holidays, setHolidays] = useState(project?.holidays || props.holidays || []);
+  const [vacations, setVacations] = useState(project?.vacations || props.vacations || []);
   const [taskEditingId, setTaskEditingId] = useState(null);
   const [workerEditingId, setWorkerEditingId] = useState(null);
   const [holidayEditingId, setHolidayEditingId] = useState(null);
@@ -98,7 +107,9 @@ const ProjectWizard = (props) => {
       holidays,
       vacations
     );
-    dispatch({ type: PROJECT_ADD, project: project });
+    if (projectDetails?.id)
+      dispatch({ type: PROJECT_UPDATE, project: project, id: projectDetails.id });
+    else dispatch({ type: PROJECT_ADD, project: project });
     navigate(-1);
   };
 

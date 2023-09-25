@@ -6,18 +6,31 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import { useState, createRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
+import Edit from '@mui/icons-material/Edit';
+import Delete from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import { Link } from 'react-router-dom';
-import { PATH_PROJECT_WIZARD } from '../constants';
+import { PATH_PROJECT_EDIT_WIZARD, PATH_PROJECT_WIZARD, PROJECT_REMOVE } from '../constants';
 import { Project } from '../models';
 import moment from 'moment';
 
-const ProjectItems = ({ projects }) => {
+const ProjectItems = ({ projects, dispatch }) => {
   const [addingProject, setAddingProject] = useState(false);
+  const navigate = useNavigate();
   const inputRef = createRef();
+
+  const editProjectHandler = (id) => {
+    navigate(`${PATH_PROJECT_EDIT_WIZARD.replace(':id', id)}`);
+  };
+  const deleteProjectHandler = (id) => {
+    dispatch({ type: PROJECT_REMOVE, id: id });
+  };
   return (
     <>
       {projects.length > 0 ? (
@@ -27,6 +40,7 @@ const ProjectItems = ({ projects }) => {
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>Start Date</TableCell>
+                <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -35,6 +49,16 @@ const ProjectItems = ({ projects }) => {
                   <TableCell>{project.name}</TableCell>
                   <TableCell>
                     {project.startDate ? moment(project.startDate).format('DD-MM-YYYY') : '-'}
+                  </TableCell>
+                  <TableCell>
+                    <ButtonGroup variant="outlined">
+                      <IconButton onClick={() => editProjectHandler(project.id)}>
+                        <Edit sx={{ color: 'green' }} />
+                      </IconButton>
+                      <IconButton onClick={() => deleteProjectHandler(project.id)}>
+                        <Delete sx={{ color: 'orange' }} />
+                      </IconButton>
+                    </ButtonGroup>
                   </TableCell>
                 </TableRow>
               ))}
@@ -78,7 +102,8 @@ const ProjectItems = ({ projects }) => {
 };
 
 ProjectItems.propTypes = {
-  projects: PropTypes.arrayOf(PropTypes.instanceOf(Project))
+  projects: PropTypes.arrayOf(PropTypes.instanceOf(Project)),
+  dispatch: PropTypes.func
 };
 
 export default ProjectItems;

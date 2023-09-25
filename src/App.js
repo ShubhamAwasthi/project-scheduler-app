@@ -4,7 +4,7 @@ import ProjectWizard from './components/ProjectWizard';
 import Container from '@mui/material/Container';
 import { useReducer } from 'react';
 import { appReducer, DispatchContext, initialState, ProjectContext } from './store';
-import { PATH_PROFILE, PATH_PROJECT_WIZARD } from './constants';
+import { PATH_PROFILE, PATH_PROJECT_WIZARD, PATH_PROJECT_EDIT_WIZARD } from './constants';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -25,6 +25,7 @@ const App = () => {
                 <Routes>
                   <Route path={PATH_PROFILE} element={<Profile />} />
                   <Route path={PATH_PROJECT_WIZARD} element={<ProjectWizard />} />
+                  <Route path={PATH_PROJECT_EDIT_WIZARD} element={<ProjectWizard />} />
                 </Routes>
               </HashRouter>
             </Container>
