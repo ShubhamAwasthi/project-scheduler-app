@@ -1,10 +1,16 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import Profile from './components/Profile';
 import ProjectWizard from './components/ProjectWizard';
+import Schedule from './components/Schedule';
 import Container from '@mui/material/Container';
 import { useReducer } from 'react';
 import { appReducer, DispatchContext, initialState, ProjectContext } from './store';
-import { PATH_PROFILE, PATH_PROJECT_WIZARD, PATH_PROJECT_EDIT_WIZARD } from './constants';
+import {
+  PATH_PROFILE,
+  PATH_PROJECT_WIZARD,
+  PATH_PROJECT_EDIT_WIZARD,
+  PATH_PROJECT_SCHEDULE
+} from './constants';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -26,6 +32,7 @@ const App = () => {
                   <Route path={PATH_PROFILE} element={<Profile />} />
                   <Route path={PATH_PROJECT_WIZARD} element={<ProjectWizard />} />
                   <Route path={PATH_PROJECT_EDIT_WIZARD} element={<ProjectWizard />} />
+                  <Route path={PATH_PROJECT_SCHEDULE} element={<Schedule />} />
                 </Routes>
               </HashRouter>
             </Container>
