@@ -37,6 +37,25 @@ export class Vacation {
 }
 
 /**
+ * WorkItem entity
+ */
+export class WorkItem {
+  /**
+   * creates vacation with given params
+   * @param {number} id the id of the WorkItem
+   * @param {number} taskId the id of the task
+   * @param {Date} startDate the start date of this WorkItem
+   * @param {Date} endDate the end date of this WorkItem
+   */
+  constructor(id, taskId, startDate, endDate) {
+    this.id = id;
+    this.taskId = taskId;
+    this.startDate = startDate;
+    this.endDate = endDate;
+  }
+}
+
+/**
  * Skill entity
  */
 export class Skill {
@@ -60,11 +79,13 @@ export class Worker {
    * @param {number} id the id of the worker
    * @param {string} name the name of this worker
    * @param {Array<Skill>} skills the skill of this worker
+   * @param {Array<WorkItem>} workItems optional workItems assigned to this worker
    */
-  constructor(id, name, skills) {
+  constructor(id, name, skills, workItems = []) {
     this.id = id;
     this.name = name;
     this.skills = skills;
+    this.workItems = workItems;
   }
 }
 

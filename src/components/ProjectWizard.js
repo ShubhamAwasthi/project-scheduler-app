@@ -18,7 +18,7 @@ import HolidayForm from './HolidayForm';
 import VacationForm from './VacationForm';
 import { Holiday, Task, Project, Vacation } from '../models';
 import { DispatchContext } from '../store';
-import { getProjects } from '../api';
+import { assignTasks, getProjects } from '../api';
 import moment from 'moment';
 import { PROJECT_ADD, PROJECT_UPDATE } from '../constants';
 
@@ -98,7 +98,7 @@ const ProjectWizard = (props) => {
   };
 
   const handleSave = () => {
-    const project = new Project(
+    let project = new Project(
       moment().valueOf(),
       projectDetails.name,
       projectDetails.startDate,
@@ -107,6 +107,7 @@ const ProjectWizard = (props) => {
       holidays,
       vacations
     );
+    project = assignTasks(project);
     if (projectDetails?.id)
       dispatch({ type: PROJECT_UPDATE, project: project, id: projectDetails.id });
     else dispatch({ type: PROJECT_ADD, project: project });
