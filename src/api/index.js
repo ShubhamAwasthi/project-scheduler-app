@@ -1,7 +1,8 @@
 /* eslint-disable guard-for-in */
 import * as Lockr from 'lockr';
-import { PROJECTS_KEY } from '../constants';
+import { PROJECTS_KEY, WEEKEND_DAYS } from '../constants';
 import * as moment from 'moment';
+import { WorkItem } from '../models';
 
 export const setProjects = (projects) => {
   console.log('before saving to browser', projects);
@@ -30,13 +31,30 @@ export const assignTasks = (project) => {
    * add the worker detail to this task
    * once all tasks are assigned we can return the project
    */
-  // Iterate the tasks
-  const projectStartDateMoment = moment(project.startDate);
-  const weekendDays = [0, 7];
+  // Iterate the tasks and clear worker
   for (const task of project.tasks) {
-    const nextWorkingDay = getNextWorkingDay(projectStartDateMoment, weekendDays, project.holidays);
+    console.log(`before `, task);
+    task.workers = [];
+    console.log(`after `, task);
+  }
+  // Iterate the workers and remove workItems
+  for (const worker of project.workers) {
+    console.log(`before `, worker);
+    worker.workItems = [];
+    console.log(`after `, worker);
+  }
+  // Iterate tasks and assign workers
+  const projectStartDateMoment = moment(project.startDate);
+  for (const task of project.tasks) {
+    const nextWorkingDay = getNextWorkingDay(
+      projectStartDateMoment,
+      WEEKEND_DAYS,
+      project.holidays
+    );
     console.log(nextWorkingDay, task);
     const skillWorkerMap = {};
+    let isAssignmentPossible = true;
+    let totalWorkers = 0;
     for (const skill of task.skills) {
       if (!skillWorkerMap[skill.level]) {
         skillWorkerMap[skill.level] = [];
@@ -47,13 +65,95 @@ export const assignTasks = (project) => {
         }
       }
       if (skill.count > skillWorkerMap[skill.level].length) {
-        continue;
+        isAssignmentPossible = false;
+        break;
+      }
+      totalWorkers = totalWorkers + skill.count;
+    }
+    if (isAssignmentPossible) {
+      // find the first free person who can finish off the task fastest for a particular skill
+      for (const skill of task.skills) {
+        if (skill.count == 0) {
+          continue;
+        }
+        let count = skill.count;
+        const workers = skillWorkerMap[skill.level];
+        while (count > 0) {
+          const workerAndDatesForTask = getWorkerForTask(
+            task,
+            workers,
+            project.holidays,
+            project.vacations,
+            projectStartDateMoment,
+            Math.ceil(task.days / totalWorkers)
+          );
+          count--;
+          console.log(count);
+          console.log(`assigning worker: `, workerAndDatesForTask);
+          if (!task.workers) {
+            task.workers = [];
+          }
+          const worker = workerAndDatesForTask.workerForTask;
+          task.workers.push(worker);
+          if (!worker.workItems) {
+            worker.workItems = [];
+          }
+          worker.workItems.push(
+            new WorkItem(
+              moment().valueOf(),
+              task.id,
+              workerAndDatesForTask.startDate,
+              workerAndDatesForTask.endDate
+            )
+          );
+          console.log(`done assigning worker`, workerAndDatesForTask);
+        }
       }
     }
     console.log(`skillMap: `, skillWorkerMap, task);
   }
   console.log(`after assigning tasks`, project);
   return project;
+};
+
+const getWorkerForTask = (task, workers, holidays, vacations, projectStartDateMoment, days) => {
+  // find the first person that can close on work fastest and return them
+  const workersEligibleForTask = workers.filter(
+    (w) => !(task.workers || []).some((x) => x.id == w.id)
+  );
+  console.log(`workers Eligible`, workersEligibleForTask);
+  let workerForTask = null;
+  let endDate = null;
+  let startDate = null;
+
+  for (const worker of workersEligibleForTask) {
+    let workerDays = days;
+    const workerVacations = (vacations || []).filter((v) => v.workerId == worker.id);
+    const workerWorkItems = (worker.workItems || []).filter((item) => item.taskId == task.id);
+    console.log(workerWorkItems);
+    let nextWorkingDay = moment(projectStartDateMoment);
+    while (workerDays > 0) {
+      nextWorkingDay = getNextWorkingDay(nextWorkingDay, WEEKEND_DAYS, [
+        ...holidays,
+        ...workerVacations,
+        ...workerWorkItems
+      ]);
+      console.log('before next day', nextWorkingDay.toDate());
+      nextWorkingDay = nextWorkingDay.add(1, 'd');
+      console.log('after next day', nextWorkingDay.toDate());
+      workerDays--;
+      console.log(workerDays, nextWorkingDay);
+    }
+    if (endDate == null || nextWorkingDay.isBefore(endDate)) {
+      workerForTask = worker;
+      endDate = nextWorkingDay;
+      startDate = getNextWorkingDay(moment(projectStartDateMoment), WEEKEND_DAYS, [
+        ...holidays,
+        ...workerVacations
+      ]);
+    }
+  }
+  return { workerForTask, startDate, endDate };
 };
 
 const getNextWorkingDay = (projectStartDateMoment, weekendDays, holidays) => {
