@@ -15,6 +15,7 @@ export const SKILL_HIGH = 'SKILL_HIGH';
 export const PATH_PROFILE = '/';
 export const PATH_PROJECT_WIZARD = `/add-project`;
 export const PATH_PROJECT_EDIT_WIZARD = `/edit-project/:id`;
+export const PATH_PROJECT_VIEW = `/view-project/:id`;
 export const PATH_PROJECT_SCHEDULE = `/view-project-schedule`;
 
 export const WEEKEND_DAYS = [0, 7];

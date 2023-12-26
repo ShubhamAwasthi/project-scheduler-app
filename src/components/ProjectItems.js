@@ -10,13 +10,19 @@ import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import Edit from '@mui/icons-material/Edit';
 import Delete from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { Link } from 'react-router-dom';
-import { PATH_PROJECT_EDIT_WIZARD, PATH_PROJECT_WIZARD, PROJECT_REMOVE } from '../constants';
+import {
+  PATH_PROJECT_EDIT_WIZARD,
+  PATH_PROJECT_WIZARD,
+  PROJECT_REMOVE,
+  PATH_PROJECT_VIEW
+} from '../constants';
 import { Project } from '../models';
 import moment from 'moment';
 
@@ -30,6 +36,9 @@ const ProjectItems = ({ projects, dispatch }) => {
   };
   const deleteProjectHandler = (id) => {
     dispatch({ type: PROJECT_REMOVE, id: id });
+  };
+  const viewProjectHandler = (id) => {
+    navigate(`${PATH_PROJECT_VIEW.replace(':id', id)}`);
   };
   return (
     <>
@@ -52,6 +61,9 @@ const ProjectItems = ({ projects, dispatch }) => {
                   </TableCell>
                   <TableCell>
                     <ButtonGroup variant="outlined">
+                      <IconButton onClick={() => viewProjectHandler(project.id)}>
+                        <VisibilityIcon sx={{ color: 'purple' }} />
+                      </IconButton>
                       <IconButton onClick={() => editProjectHandler(project.id)}>
                         <Edit sx={{ color: 'green' }} />
                       </IconButton>

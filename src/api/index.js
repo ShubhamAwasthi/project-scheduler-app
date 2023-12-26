@@ -129,8 +129,8 @@ const getWorkerForTask = (task, workers, holidays, vacations, projectStartDateMo
   for (const worker of workersEligibleForTask) {
     let workerDays = days;
     const workerVacations = (vacations || []).filter((v) => v.workerId == worker.id);
-    const workerWorkItems = (worker.workItems || []).filter((item) => item.taskId == task.id);
-    console.log(workerWorkItems);
+    const workerWorkItems = worker.workItems || [];
+    console.log('workerWorkItems', workerWorkItems);
     let nextWorkingDay = moment(projectStartDateMoment);
     while (workerDays > 0) {
       nextWorkingDay = getNextWorkingDay(nextWorkingDay, WEEKEND_DAYS, [
@@ -146,10 +146,12 @@ const getWorkerForTask = (task, workers, holidays, vacations, projectStartDateMo
     }
     if (endDate == null || nextWorkingDay.isBefore(endDate)) {
       workerForTask = worker;
+      console.log('worker name: ', worker.name);
       endDate = nextWorkingDay;
       startDate = getNextWorkingDay(moment(projectStartDateMoment), WEEKEND_DAYS, [
         ...holidays,
-        ...workerVacations
+        ...workerVacations,
+        ...workerWorkItems
       ]);
     }
   }
@@ -157,7 +159,12 @@ const getWorkerForTask = (task, workers, holidays, vacations, projectStartDateMo
 };
 
 const getNextWorkingDay = (projectStartDateMoment, weekendDays, holidays) => {
-  console.log(`Before calculating next working day`, projectStartDateMoment, weekendDays, holidays);
+  console.log(
+    `Before calculating next working day`,
+    projectStartDateMoment.toDate(),
+    weekendDays,
+    holidays
+  );
   while (
     weekendDays.includes(projectStartDateMoment.day()) ||
     holidays.some((holiday) =>
@@ -166,7 +173,12 @@ const getNextWorkingDay = (projectStartDateMoment, weekendDays, holidays) => {
   ) {
     projectStartDateMoment = projectStartDateMoment.add(1, 'd');
   }
-  console.log(`After calculating next working day`, projectStartDateMoment, weekendDays, holidays);
+  console.log(
+    `After calculating next working day`,
+    projectStartDateMoment.toDate(),
+    weekendDays,
+    holidays
+  );
   return projectStartDateMoment;
 };
 

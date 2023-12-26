@@ -9,7 +9,7 @@ import {
   PATH_PROFILE,
   PATH_PROJECT_WIZARD,
   PATH_PROJECT_EDIT_WIZARD,
-  PATH_PROJECT_SCHEDULE
+  PATH_PROJECT_VIEW
 } from './constants';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -32,7 +32,7 @@ const App = () => {
                   <Route path={PATH_PROFILE} element={<Profile />} />
                   <Route path={PATH_PROJECT_WIZARD} element={<ProjectWizard />} />
                   <Route path={PATH_PROJECT_EDIT_WIZARD} element={<ProjectWizard />} />
-                  <Route path={PATH_PROJECT_SCHEDULE} element={<Schedule />} />
+                  <Route path={PATH_PROJECT_VIEW} element={<Schedule />} />
                 </Routes>
               </HashRouter>
             </Container>
