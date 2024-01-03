@@ -21,6 +21,8 @@ const HolidayForm = ({ holidays, setHolidays, dispatch, editingId, setEditingId 
       holidayToSave = new Holiday(id || moment().valueOf(), startDate, endDate, name);
       console.log(holidayToSave, 'saved this');
     }
+    holidayToSave.startDate = moment(holidayToSave.startDate).startOf('day');
+    holidayToSave.endDate = moment(holidayToSave.endDate).endOf('day');
     setHolidays([...holidays.filter((x) => x.id !== id), holidayToSave]);
     setEditingId(null);
     setStartDate(null);

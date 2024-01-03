@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import moment from 'moment';
 
 const ProjectDetailForm = ({ projectDetails, setProjectDetails, dispatch }) => {
   return (
@@ -31,7 +32,10 @@ const ProjectDetailForm = ({ projectDetails, setProjectDetails, dispatch }) => {
             <DatePicker
               label="start date"
               onChange={(newValue) => {
-                setProjectDetails({ ...projectDetails, startDate: newValue });
+                setProjectDetails({
+                  ...projectDetails,
+                  startDate: moment(newValue).startOf('day')
+                });
               }}
               value={projectDetails.startDate}
               renderInput={(params) => <TextField size="small" {...params} />}
