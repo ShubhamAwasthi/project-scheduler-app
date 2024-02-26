@@ -4,6 +4,7 @@ import { getProjects } from '../api';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { WEEKEND_DAYS } from '../constants';
 
 const localizer = momentLocalizer(moment);
 
@@ -18,6 +19,13 @@ const getEvent = (id, title, start, end, backgroundColor, color) => {
   };
 };
 
+const WORK_BACKGROUND_COLOR = 'teal';
+const VACATION_BACKGROUND_COLOR = 'darkred';
+const HOLIDAY_BACKGROUND_COLOR = 'magenta';
+const HOLIDAY_TEXT_COLOR = 'white';
+const VACATION_TEXT_COLOR = 'white';
+const WORK_TEXT_COLOR = 'white';
+
 const getEventsForProject = (project) => {
   const events = [];
   try {
@@ -26,7 +34,14 @@ const getEventsForProject = (project) => {
     for (const holiday of project.holidays || []) {
       count++;
       events.push(
-        getEvent(count, holiday.name, holiday.startDate, holiday.endDate, 'magenta', 'white')
+        getEvent(
+          count,
+          holiday.name,
+          holiday.startDate,
+          holiday.endDate,
+          HOLIDAY_BACKGROUND_COLOR,
+          HOLIDAY_TEXT_COLOR
+        )
       );
     }
     // add all worker vacations
@@ -39,8 +54,8 @@ const getEventsForProject = (project) => {
           `OOO: ${worker.name}`,
           vacation.startDate,
           vacation.endDate,
-          'darkred',
-          'white'
+          VACATION_BACKGROUND_COLOR,
+          VACATION_TEXT_COLOR
         )
       );
     }
@@ -55,8 +70,8 @@ const getEventsForProject = (project) => {
             `${task.name}: ${worker.name}`,
             workItem.startDate,
             workItem.endDate,
-            'teal',
-            'white'
+            WORK_BACKGROUND_COLOR,
+            WORK_TEXT_COLOR
           )
         );
       }
@@ -65,7 +80,64 @@ const getEventsForProject = (project) => {
     console.error(`Failed processing project events`, error);
   }
   console.log(`found events`, events);
-  return events;
+  return transformEventsForWeekendBreaks(events);
+};
+
+const transformEventsForWeekendBreaks = (events) => {
+  const transformedEvents = [];
+  for (const event of events) {
+    let count = 1;
+    if (event.backgroundColor !== WORK_BACKGROUND_COLOR) {
+      transformedEvents.push(event);
+    } else {
+      let date = moment(event.start);
+      while (WEEKEND_DAYS.includes(date.day())) {
+        date = moment(date.add(1, 'd').toDate());
+      }
+      let startDate = new Date(date);
+      while (date.isBefore(moment(event.end))) {
+        while (!WEEKEND_DAYS.includes(date.day()) && date.isBefore(moment(event.end))) {
+          date = moment(date.add(1, 'd').toDate());
+        }
+        if (WEEKEND_DAYS.includes(date.day())) {
+          date = moment(date.add(-1, 'd').toDate());
+        }
+        const endDate = new Date(date);
+        transformedEvents.push(
+          getEvent(
+            `${event.id}_${count}`,
+            event.title,
+            startDate,
+            endDate,
+            event.backgroundColor,
+            event.color
+          )
+        );
+        count++;
+        if (!WEEKEND_DAYS.includes(date.day())) {
+          date = moment(date.add(1, 'd').toDate());
+        }
+        while (WEEKEND_DAYS.includes(date.day())) {
+          date = moment(date.add(1, 'd').toDate());
+        }
+        startDate = new Date(date);
+        if (date == moment(event.end)) {
+          transformedEvents.push(
+            getEvent(
+              `${event.id}_${count}`,
+              event.title,
+              startDate,
+              startDate,
+              event.backgroundColor,
+              event.color
+            )
+          );
+        }
+      }
+    }
+  }
+  console.log('transformed events', transformedEvents);
+  return transformedEvents;
 };
 
 const Schedule = (props) => {
