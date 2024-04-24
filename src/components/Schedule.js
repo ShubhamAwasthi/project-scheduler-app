@@ -99,9 +99,7 @@ const transformEventsForWeekendBreaks = (events) => {
         while (!WEEKEND_DAYS.includes(date.day()) && date.isBefore(moment(event.end))) {
           date = moment(date.add(1, 'd').toDate());
         }
-        if (WEEKEND_DAYS.includes(date.day())) {
-          date = moment(date.add(-1, 'd').toDate());
-        }
+        console.log('end date in transformed event', date.toDate());
         const endDate = new Date(date);
         transformedEvents.push(
           getEvent(
@@ -114,9 +112,6 @@ const transformEventsForWeekendBreaks = (events) => {
           )
         );
         count++;
-        if (!WEEKEND_DAYS.includes(date.day())) {
-          date = moment(date.add(1, 'd').toDate());
-        }
         while (WEEKEND_DAYS.includes(date.day())) {
           date = moment(date.add(1, 'd').toDate());
         }

@@ -163,7 +163,8 @@ const getNextWorkingDay = (projectStartDateMoment, weekendDays, holidays) => {
     `Before calculating next working day`,
     projectStartDateMoment.toDate(),
     weekendDays,
-    holidays
+    holidays,
+    projectStartDateMoment.day()
   );
   while (
     weekendDays.includes(projectStartDateMoment.day()) ||
@@ -177,7 +178,8 @@ const getNextWorkingDay = (projectStartDateMoment, weekendDays, holidays) => {
     `After calculating next working day`,
     projectStartDateMoment.toDate(),
     weekendDays,
-    holidays
+    holidays,
+    projectStartDateMoment.day()
   );
   return projectStartDateMoment;
 };
