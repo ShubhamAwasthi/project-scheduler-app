@@ -21,8 +21,9 @@ const VacationForm = ({ vacations, setVacations, workers, dispatch, editingId, s
       vacationToSave = new Vacation(id || moment().valueOf(), workerId, startDate, endDate);
       console.log(vacationToSave, 'saved this');
     }
-    vacationToSave.startDate = moment(vacationToSave.startDate).startOf('day');
-    vacationToSave.endDate = moment(vacationToSave.endDate).endOf('day');
+    vacationToSave.startDate = moment(vacationToSave.startDate).startOf('day').toDate();
+    vacationToSave.endDate = moment(moment(vacationToSave.endDate)).endOf('day').toDate();
+    console.log('saved dates', vacationToSave.startDate, vacationToSave.endDate);
     setVacations([...vacations.filter((x) => x.id !== id), vacationToSave]);
     setEditingId(null);
     setStartDate(null);

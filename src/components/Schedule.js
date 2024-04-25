@@ -8,14 +8,15 @@ import { WEEKEND_DAYS } from '../constants';
 
 const localizer = momentLocalizer(moment);
 
-const getEvent = (id, title, start, end, backgroundColor, color) => {
+const getEvent = (id, title, start, end, backgroundColor, color, workerId) => {
   return {
     id: id,
     title: title,
     start: new Date(moment(start)),
     end: new Date(moment(end)),
     backgroundColor: backgroundColor,
-    color: color
+    color: color,
+    workerId: workerId
   };
 };
 
@@ -55,7 +56,8 @@ const getEventsForProject = (project) => {
           vacation.startDate,
           vacation.endDate,
           VACATION_BACKGROUND_COLOR,
-          VACATION_TEXT_COLOR
+          VACATION_TEXT_COLOR,
+          worker.id
         )
       );
     }
@@ -71,7 +73,8 @@ const getEventsForProject = (project) => {
             workItem.startDate,
             workItem.endDate,
             WORK_BACKGROUND_COLOR,
-            WORK_TEXT_COLOR
+            WORK_TEXT_COLOR,
+            worker.id
           )
         );
       }
@@ -80,23 +83,38 @@ const getEventsForProject = (project) => {
     console.error(`Failed processing project events`, error);
   }
   console.log(`found events`, events);
-  return transformEventsForWeekendBreaks(events);
+  return transformEventsForWeekendBreaks(events, project.vacations || []);
 };
 
-const transformEventsForWeekendBreaks = (events) => {
+const transformEventsForWeekendBreaks = (events, vacations) => {
   const transformedEvents = [];
   for (const event of events) {
     let count = 1;
     if (event.backgroundColor !== WORK_BACKGROUND_COLOR) {
       transformedEvents.push(event);
     } else {
+      const workerVacations = vacations.filter((x) => x.workerId === event.workerId);
+      console.log('vacations found', workerVacations);
       let date = moment(event.start);
-      while (WEEKEND_DAYS.includes(date.day())) {
+      while (
+        WEEKEND_DAYS.includes(date.day()) ||
+        workerVacations.some((x) => {
+          console.log('date between  1 ', date.toDate(), x.startDate, x.endDate);
+          return date.isBetween(moment(x.startDate), moment(x.endDate), undefined, '[]');
+        })
+      ) {
         date = moment(date.add(1, 'd').toDate());
       }
       let startDate = new Date(date);
       while (date.isBefore(moment(event.end))) {
-        while (!WEEKEND_DAYS.includes(date.day()) && date.isBefore(moment(event.end))) {
+        while (
+          !WEEKEND_DAYS.includes(date.day()) &&
+          !workerVacations.some((x) => {
+            console.log('date between 2 ', date.toDate(), x.startDate, x.endDate);
+            return date.isBetween(moment(x.startDate), moment(x.endDate), undefined, '[]');
+          }) &&
+          date.isBefore(moment(event.end))
+        ) {
           date = moment(date.add(1, 'd').toDate());
         }
         console.log('end date in transformed event', date.toDate());
@@ -112,7 +130,13 @@ const transformEventsForWeekendBreaks = (events) => {
           )
         );
         count++;
-        while (WEEKEND_DAYS.includes(date.day())) {
+        while (
+          WEEKEND_DAYS.includes(date.day()) ||
+          workerVacations.some((x) => {
+            console.log('date between 3 ', date.toDate(), x.startDate, x.endDate);
+            return date.isBetween(moment(x.startDate), moment(x.endDate), undefined, '[]');
+          })
+        ) {
           date = moment(date.add(1, 'd').toDate());
         }
         startDate = new Date(date);
