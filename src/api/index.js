@@ -147,11 +147,12 @@ const getWorkerForTask = (task, workers, holidays, vacations, projectStartDateMo
     console.log('workerWorkItems', workerWorkItems);
     let nextWorkingDay = moment(projectStartDateMoment);
     while (workerDays > 0) {
-      nextWorkingDay = getNextWorkingDay(nextWorkingDay, WEEKEND_DAYS, [
-        ...holidays,
-        ...workerVacations,
-        ...workerWorkItems
-      ]);
+      nextWorkingDay = getNextWorkingDay(
+        nextWorkingDay,
+        WEEKEND_DAYS,
+        [...holidays, ...workerVacations],
+        workerWorkItems
+      );
       console.log('before next day', nextWorkingDay.toDate());
       nextWorkingDay = nextWorkingDay.add(1, 'd');
       console.log('after next day', nextWorkingDay.toDate());
@@ -162,17 +163,18 @@ const getWorkerForTask = (task, workers, holidays, vacations, projectStartDateMo
       workerForTask = worker;
       console.log('worker name: ', worker.name);
       endDate = nextWorkingDay;
-      startDate = getNextWorkingDay(moment(projectStartDateMoment), WEEKEND_DAYS, [
-        ...holidays,
-        ...workerVacations,
-        ...workerWorkItems
-      ]);
+      startDate = getNextWorkingDay(
+        moment(projectStartDateMoment),
+        WEEKEND_DAYS,
+        [...holidays, ...workerVacations],
+        workerWorkItems
+      );
     }
   }
   return { workerForTask, startDate, endDate };
 };
 
-const getNextWorkingDay = (projectStartDateMoment, weekendDays, holidays) => {
+const getNextWorkingDay = (projectStartDateMoment, weekendDays, holidays, workerWorkItems = []) => {
   console.log(
     `Before calculating next working day`,
     projectStartDateMoment.toDate(),
@@ -184,6 +186,9 @@ const getNextWorkingDay = (projectStartDateMoment, weekendDays, holidays) => {
     weekendDays.includes(projectStartDateMoment.day()) ||
     holidays.some((holiday) =>
       projectStartDateMoment.isBetween(holiday.startDate, holiday.endDate, 'days', '[]')
+    ) ||
+    workerWorkItems.some((workItem) =>
+      projectStartDateMoment.isBetween(workItem.startDate, workItem.endDate, 'days', '[)')
     )
   ) {
     projectStartDateMoment = projectStartDateMoment.add(1, 'd');
