@@ -83,10 +83,10 @@ const getEventsForProject = (project) => {
     console.error(`Failed processing project events`, error);
   }
   console.log(`found events`, events);
-  return transformEventsForWeekendBreaks(events, project.vacations || []);
+  return transformEventsForWeekendBreaks(events, project.vacations || [], project.holidays || []);
 };
 
-const transformEventsForWeekendBreaks = (events, vacations) => {
+const transformEventsForWeekendBreaks = (events, vacations, holidays) => {
   const transformedEvents = [];
   for (const event of events) {
     let count = 1;
@@ -101,6 +101,10 @@ const transformEventsForWeekendBreaks = (events, vacations) => {
         workerVacations.some((x) => {
           console.log('date between  1 ', date.toDate(), x.startDate, x.endDate);
           return date.isBetween(moment(x.startDate), moment(x.endDate), undefined, '[]');
+        }) ||
+        holidays.some((x) => {
+          console.log('date between  1 ', date.toDate(), x.startDate, x.endDate);
+          return date.isBetween(moment(x.startDate), moment(x.endDate), undefined, '[]');
         })
       ) {
         date = moment(date.add(1, 'd').toDate());
@@ -110,6 +114,10 @@ const transformEventsForWeekendBreaks = (events, vacations) => {
         while (
           !WEEKEND_DAYS.includes(date.day()) &&
           !workerVacations.some((x) => {
+            console.log('date between 2 ', date.toDate(), x.startDate, x.endDate);
+            return date.isBetween(moment(x.startDate), moment(x.endDate), undefined, '[]');
+          }) &&
+          !holidays.some((x) => {
             console.log('date between 2 ', date.toDate(), x.startDate, x.endDate);
             return date.isBetween(moment(x.startDate), moment(x.endDate), undefined, '[]');
           }) &&
@@ -133,6 +141,10 @@ const transformEventsForWeekendBreaks = (events, vacations) => {
         while (
           WEEKEND_DAYS.includes(date.day()) ||
           workerVacations.some((x) => {
+            console.log('date between 3 ', date.toDate(), x.startDate, x.endDate);
+            return date.isBetween(moment(x.startDate), moment(x.endDate), undefined, '[]');
+          }) ||
+          holidays.some((x) => {
             console.log('date between 3 ', date.toDate(), x.startDate, x.endDate);
             return date.isBetween(moment(x.startDate), moment(x.endDate), undefined, '[]');
           })
