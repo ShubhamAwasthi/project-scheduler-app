@@ -71,6 +71,8 @@ export const assignTasks = (project) => {
       totalWorkers = totalWorkers + skill.count;
     }
     if (isAssignmentPossible) {
+      const days = Math.floor(task.days / totalWorkers);
+      let extraDays = task.days % totalWorkers;
       // find the first free person who can finish off the task fastest for a particular skill
       for (const skill of task.skills) {
         if (skill.count == 0) {
@@ -79,13 +81,25 @@ export const assignTasks = (project) => {
         let count = skill.count;
         const workers = skillWorkerMap[skill.level];
         while (count > 0) {
+          let workerDays = days;
+          if (extraDays > 0) {
+            workerDays += 1;
+            extraDays -= 1;
+          }
+          console.log(
+            'days and workerDays and extraDays and count',
+            days,
+            workerDays,
+            extraDays,
+            count
+          );
           const workerAndDatesForTask = getWorkerForTask(
             task,
             workers,
             project.holidays,
             project.vacations,
             projectStartDateMoment,
-            Math.ceil(task.days / totalWorkers)
+            workerDays
           );
           count--;
           console.log(count);
