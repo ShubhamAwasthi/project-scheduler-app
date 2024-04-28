@@ -1,4 +1,13 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
+import AppBar from '@mui/material/AppBar';
+import Grid from '@mui/material/Grid';
+import Toolbar from '@mui/material/Toolbar';
+import Paper from '@mui/material/Paper';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import { useParams } from 'react-router-dom';
 import { getProjects } from '../api';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
@@ -172,27 +181,62 @@ const transformEventsForWeekendBreaks = (events, vacations, holidays) => {
 };
 
 const Schedule = (props) => {
+  const [value, setValue] = useState('one');
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   const { id } = useParams();
   const project = getProjects().find((p) => p.id == id);
   console.log(`Project found: `, project);
   console.log(moment(project.startDate).toDate(), new Date(moment(project.startDate)));
   return (
     <Fragment>
-      <Calendar
-        localizer={localizer}
-        events={getEventsForProject(project)}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: 500 }}
-        popup
-        showMultiDayTimes
-        defaultDate={new Date(moment(project.startDate))}
-        eventPropGetter={(event) => {
-          const backgroundColor = event?.backgroundColor || 'lightgrey';
-          const color = event?.color || 'black';
-          return { style: { backgroundColor, color } };
-        }}
-      />
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" square={false}>
+          <Toolbar>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              <Link underline="hover" color="inherit" href="#">
+                {`Projects`}
+              </Link>
+              {` > ${project.name}`}
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Grid item xs={12}>
+          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: 2 }}>
+              <Tabs value={value} onChange={handleChange} aria-label="wrapped label tabs example">
+                <Tab value="one" label="Calendar View" />
+                <Tab value="two" label="Table View" />
+              </Tabs>
+            </Box>
+            {value == 'one' && (
+              <Calendar
+                localizer={localizer}
+                events={getEventsForProject(project)}
+                startAccessor="start"
+                endAccessor="end"
+                style={{ height: 500 }}
+                views={{
+                  month: true,
+                  agenda: true
+                }}
+                popup
+                showMultiDayTimes
+                defaultDate={new Date(moment(project.startDate))}
+                eventPropGetter={(event) => {
+                  const backgroundColor = event?.backgroundColor || 'lightgrey';
+                  const color = event?.color || 'black';
+                  return { style: { backgroundColor, color } };
+                }}
+              />
+            )}
+            {value == 'two' && <div>Item Two</div>}
+          </Paper>
+        </Grid>
+      </Box>
     </Fragment>
   );
 };
