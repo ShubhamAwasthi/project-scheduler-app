@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 const columns = [
   { field: 'id', headerName: 'ID' },
@@ -20,7 +20,7 @@ const DataTable = () => {
 
   return (
     <div style={{ height: 700, width: '100%' }}>
-      <DataGrid rows={tableData} columns={columns} pageSize={12} />
+      <DataGrid rows={tableData} columns={columns} pageSize={12} slots={{ toolbar: GridToolbar }} />
     </div>
   );
 };
