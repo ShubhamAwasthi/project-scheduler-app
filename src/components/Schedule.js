@@ -11,6 +11,7 @@ import Tab from '@mui/material/Tab';
 import { useParams } from 'react-router-dom';
 import { getProjects } from '../api';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
+import DataTable from './DataTable';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { WEEKEND_DAYS } from '../constants';
@@ -233,7 +234,7 @@ const Schedule = (props) => {
                 }}
               />
             )}
-            {value == 'two' && <div>Item Two</div>}
+            {value == 'two' && <DataTable />}
           </Paper>
         </Grid>
       </Box>
