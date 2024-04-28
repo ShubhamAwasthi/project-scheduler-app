@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/project-scheduler-app/static/css/main.fb54923c.css",
-    "main.js": "/project-scheduler-app/static/js/main.ffeb1bd1.js",
+    "main.js": "/project-scheduler-app/static/js/main.891da49b.js",
     "static/js/787.8b77adc6.chunk.js": "/project-scheduler-app/static/js/787.8b77adc6.chunk.js",
     "static/media/roboto-all-500-normal.woff": "/project-scheduler-app/static/media/roboto-all-500-normal.0ab669b7a0d19b178f57.woff",
     "static/media/roboto-all-700-normal.woff": "/project-scheduler-app/static/media/roboto-all-700-normal.a457fde362a540fcadff.woff",
@@ -37,11 +37,11 @@
     "static/media/roboto-greek-ext-700-normal.woff2": "/project-scheduler-app/static/media/roboto-greek-ext-700-normal.bd9854c751441ccc1a70.woff2",
     "index.html": "/project-scheduler-app/index.html",
     "main.fb54923c.css.map": "/project-scheduler-app/static/css/main.fb54923c.css.map",
-    "main.ffeb1bd1.js.map": "/project-scheduler-app/static/js/main.ffeb1bd1.js.map",
+    "main.891da49b.js.map": "/project-scheduler-app/static/js/main.891da49b.js.map",
     "787.8b77adc6.chunk.js.map": "/project-scheduler-app/static/js/787.8b77adc6.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.fb54923c.css",
-    "static/js/main.ffeb1bd1.js"
+    "static/js/main.891da49b.js"
   ]
 }
