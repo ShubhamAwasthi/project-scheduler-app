@@ -18,7 +18,7 @@ import { WEEKEND_DAYS } from '../constants';
 
 const localizer = momentLocalizer(moment);
 
-const getEvent = (id, title, start, end, backgroundColor, color, workerId) => {
+const getEvent = (id, title, start, end, backgroundColor, color, workerId, taskId) => {
   return {
     id: id,
     title: title,
@@ -26,7 +26,8 @@ const getEvent = (id, title, start, end, backgroundColor, color, workerId) => {
     end: new Date(moment(end)),
     backgroundColor: backgroundColor,
     color: color,
-    workerId: workerId
+    workerId: workerId,
+    taskId: taskId
   };
 };
 
@@ -84,7 +85,8 @@ const getEventsForProject = (project) => {
             workItem.endDate,
             WORK_BACKGROUND_COLOR,
             WORK_TEXT_COLOR,
-            worker.id
+            worker.id,
+            task.id
           )
         );
       }
@@ -144,7 +146,9 @@ const transformEventsForWeekendBreaks = (events, vacations, holidays) => {
             startDate,
             endDate,
             event.backgroundColor,
-            event.color
+            event.color,
+            event.workerId,
+            event.taskId
           )
         );
         count++;
@@ -170,7 +174,8 @@ const transformEventsForWeekendBreaks = (events, vacations, holidays) => {
               startDate,
               startDate,
               event.backgroundColor,
-              event.color
+              event.color,
+              event.workerId
             )
           );
         }
@@ -192,6 +197,28 @@ const Schedule = (props) => {
   const project = getProjects().find((p) => p.id == id);
   console.log(`Project found: `, project);
   console.log(moment(project.startDate).toDate(), new Date(moment(project.startDate)));
+  const holidayAdjustedEvents = getEventsForProject(project);
+  const tableData = project.tasks
+    .map((task) => {
+      const data = [];
+      for (const worker of task.workers || []) {
+        const workItem = worker.workItems.find((x) => x.taskId == task.id);
+        data.push({
+          id: `${task.id}_${worker.id}`,
+          title: task.name,
+          worker: worker.name,
+          days: holidayAdjustedEvents
+            .filter((evt) => evt.workerId === worker.id && evt.taskId === task.id)
+            .flatMap((evt) => moment(evt.end).diff(evt.start, 'days'))
+            .reduce((a, b) => a + b, 0),
+          startDate: moment(workItem.startDate).format('YYYY-MM-DD'),
+          endDate: moment(workItem.endDate).add(-1, 'days').format('YYYY-MM-DD')
+        });
+      }
+      return data;
+    })
+    .flatMap((x) => x);
+
   return (
     <Fragment>
       <Box sx={{ flexGrow: 1 }}>
@@ -216,7 +243,7 @@ const Schedule = (props) => {
             {value == 'one' && (
               <Calendar
                 localizer={localizer}
-                events={getEventsForProject(project)}
+                events={holidayAdjustedEvents}
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: 500 }}
@@ -234,7 +261,7 @@ const Schedule = (props) => {
                 }}
               />
             )}
-            {value == 'two' && <DataTable />}
+            {value == 'two' && <DataTable tableData={tableData} projectName={project.name} />}
           </Paper>
         </Grid>
       </Box>

@@ -1,28 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 const columns = [
-  { field: 'id', headerName: 'ID' },
-  { field: 'title', headerName: 'Title', width: 300 },
-  { field: 'body', headerName: 'Body', width: 600 }
+  { field: 'id', headerName: 'ID', width: 250 },
+  { field: 'title', headerName: 'Title', width: 100 },
+  { field: 'worker', headerName: 'Worker', width: 100 },
+  { field: 'days', headerName: 'Working Days', width: 100 },
+  { field: 'startDate', headerName: 'StartDate', width: 100 },
+  { field: 'endDate', headerName: 'EndDate', width: 100 }
 ];
 
-const DataTable = () => {
-  const [tableData, setTableData] = useState([]);
-
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
-      .then((data) => data.json())
-      .then((data) => setTableData(data));
-  }, []);
-
+const DataTable = (props) => {
+  const { tableData, projectName } = props;
   console.log(tableData);
 
   return (
     <div style={{ height: 700, width: '100%' }}>
-      <DataGrid rows={tableData} columns={columns} pageSize={12} slots={{ toolbar: GridToolbar }} />
+      <DataGrid
+        rows={tableData}
+        columns={columns}
+        pageSize={12}
+        slots={{ toolbar: GridToolbar }}
+        slotProps={{
+          toolbar: {
+            csvOptions: { fileName: projectName },
+            printOptions: { fileName: projectName }
+          }
+        }}
+      />
     </div>
   );
+};
+
+DataTable.propTypes = {
+  tableData: PropTypes.arrayOf(PropTypes.instanceOf(Object)),
+  projectName: PropTypes.string
 };
 
 export default DataTable;
