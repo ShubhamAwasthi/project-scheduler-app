@@ -26,6 +26,9 @@
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4"
   },
+  "optionalDependencies": {
+    "fsevents": "*"
+  },
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
