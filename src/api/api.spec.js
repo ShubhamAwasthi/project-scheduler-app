@@ -32,4 +32,11 @@ describe('setProjects', () => {
     expect(Lockr.set).toHaveBeenCalledWith(PROJECTS_KEY, projects);
     expect(getProjects()).toEqual(projects);
   });
+
+  test('should save a project list with empty array', () => {
+    const projects = [];
+    setProjects(projects);
+    expect(Lockr.set).toHaveBeenCalledWith(PROJECTS_KEY, projects);
+    expect(getProjects()).toEqual(projects);
+  });
 });
