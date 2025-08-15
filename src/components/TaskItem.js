@@ -40,9 +40,11 @@ const TaskItem = ({
     setTaskSkills(taskSkills.slice());
   };
   const updateNameHandler = (event) => {
+    console.log('updating name', event.target.value);
     setTaskName(event.target.value);
   };
   const updateDaysHandler = (event) => {
+    console.log('updating days', event.target.value);
     setTaskDays(event.target.value);
   };
   return (

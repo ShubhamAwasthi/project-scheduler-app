@@ -33,7 +33,7 @@ const TasksForm = ({ tasks, setTasks, dispatch, editingId, setEditingId }) => {
   const editTaskHandler = (id, name, skills, days) => {
     const taskToEdit = tasks.find((x) => x.id === id);
     setSkills(taskToEdit.skills);
-    setName(taskToEdit.names);
+    setName(taskToEdit.name);
     setDays(taskToEdit.days);
     setEditingId(id);
   };
@@ -142,9 +142,9 @@ const TasksForm = ({ tasks, setTasks, dispatch, editingId, setEditingId }) => {
                                 saveTaskHandler={saveTaskHandler}
                                 deleteTaskHandler={deleteTaskHandler}
                                 id={task.id}
-                                taskName={task.name}
-                                taskDays={task.days}
-                                taskSkills={task.skills}
+                                taskName={task.id !== editingId ? task.name : name}
+                                taskDays={task.id !== editingId ? task.days : days}
+                                taskSkills={task.id !== editingId ? task.skills : skills}
                                 setTaskName={setName}
                                 setTaskDays={setDays}
                                 setTaskSkills={setSkills}
